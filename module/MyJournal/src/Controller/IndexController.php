@@ -216,4 +216,109 @@ class IndexController extends AbstractActionController
 		
 	}
 	
+	/**
+	 * This is the EDIT event Action - BEWARE -> does not allow modifications is event already validated = against the law
+	 */
+	public function editAction()
+	{
+		$id = (int)$this->params()->fromRoute('id', -1);
+		
+		if ($id < 1) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+		
+		$journal = $this->entityManager->getRepository(Journal::class)
+		->find($id);
+		
+		if ($journal == null) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+		
+		// Create new event form
+		$form = new EventForm('update', $this->entityManager, $this->codeManager, $this->currencyManager);
+		
+	
+		// Check if user has submitted the form
+		if ($this->getRequest()->isPost()) {
+			
+			// Fill in the form with POST data
+			$data = $this->params()->fromPost();
+			
+			$form->setData($data);
+			
+			// Validate form
+			if($form->isValid()) {
+				
+				// Get filtered and validated data
+				// Update journal event now
+				$event = $this->eventManager->updateJournalEvent($journal, $data);
+				
+				// Redirect to "listing" page
+				return $this->redirect()->toRoute('myjournal',
+						['action'=>'index']);
+			}
+			
+			
+			
+		} else {
+			
+			// get all entries for this particular journal event :
+			$entries = $this->entryManager->listEntries($journal);
+			
+			$entries_array = [];
+			
+			// let's organize this array so we can use it to set form data :
+			foreach ($entries as $entry) {
+				
+				if ($entry->getType()->getName() == 'DEBIT') {
+					$debit = $entry->getAmount();
+					$credit = 0;
+				} else {
+					$credit = $entry->getAmount();
+					$debit = 0;
+									
+				}
+				// on entry = one row of data :
+				$entries_array[] = [
+						'account' => $entry->getAccount()->getId(),
+						'sWording' => $entry->getWording(),
+						'debit' => $debit,
+						'credit' => $credit,
+						'currency' => $entry->getCurrency(),
+						'ratio' => $entry->getCurrencyAmount()
+				];
+				
+			}
+			
+			// filling form data 
+			$form->setData([
+					'new-event' => [
+							
+						'date' => $journal->getDate(),
+						'code' => $journal->getCode(),
+						'wording' => $journal->getWording(),
+						'reference' => $journal->getReference(),
+						'refdate' => $journal->getReferenceDate(),
+						'entries' => $entries_array
+					]
+					
+			]);
+		}
+		
+		$view = new ViewModel(
+				[
+				'journal' => $journal,
+				'form' => $form	]
+				
+				);
+		
+		// Change layout :
+		$layout = $this->layout();
+		$layout->setTemplate('layout/datepicker');
+		
+		return $view;
+		
+	}
 }

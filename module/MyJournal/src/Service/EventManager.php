@@ -98,6 +98,7 @@ class EventManager
 		
 		
 		// Set up the date :
+	
 		$data['new-event']['date'] = $data['new-event']['date'];
 		$data['new-event']['refdate'] = $data['new-event']['refdate'];
 		
@@ -130,6 +131,93 @@ class EventManager
 		
 		
 	}
+	
+	
+	/*
+	 * Function to update journal event - given multi dimensional array of data
+	 * $data contains : new-event[day] month code wording reference refday refmonth
+	 * - new-event[entries][x][account] sWording debit credit currency ratio
+	 */
+	public function updateJournalEvent($journal, $data)
+	{
+		/*
+		 * Verify if total debit = total credit
+		 * */
+		if (!count($data['new-event']['entries'])) {
+			
+			// implement abstract validator from Zend
+			die('Try to implement a validator class next time - no entries !!');
+			
+		}
+		$debit = 0 ;
+		$credit = 0;
+		
+		foreach ($data['new-event']['entries'] as $var)
+		{
+			
+			$debit += $var['debit'];
+			$credit += $var['credit'];
+			
+			if (!$var['debit'] && ! $var['credit'])
+			{
+				die('Try to implement a validator class next time - empty debit or credit !!');
+				
+			}
+			
+		}
+		
+		if ($debit != $credit) {
+			
+			// implement abstract validator from Zend
+			die('Try to implement a validator class next time - check debit and credit !!');
+			
+		}
+		
+		// get code :
+		$data['new-event']['code'] = $this->entityManager->getRepository(Code::class)
+		->findOneBy(array('id' => $data['new-event']['code']));
+		
+		
+		// Set up the date :
+		
+		$data['new-event']['date'] = $data['new-event']['date'];
+		$data['new-event']['refdate'] = $data['new-event']['refdate'];
+		
+		// UPDATE JOURNAL ENTRY NOW :
+		if (!$this->journalManager->updateJournal($journal, $data['new-event'])) {
+			
+			die('Error while updating journal entries !');
+			
+		}
+		
+		// ADD entries now :
+		
+		foreach ($data['new-event']['entries'] as $var)
+		{
+			// Set the journal ID :
+			$var['journal'] = $journal;
+			
+			// getting account chart :
+			$var['account'] = $this->entityManager->getRepository(Account::class)
+			->findOneBy(array('account' => $var['account']));
+			
+			// getting currency chart :
+			$var['currency'] = $this->entityManager->getRepository(Currency::class)
+			->findOneBy(array('id' => $var['currency']));
+			
+			// retrieve type :
+			$var['type'] = $this->getType($var['debit'],$var['credit']);
+			
+			// Get amount :
+			$var['amount'] = ($var['debit'] > 0)?$var['debit']:$var['credit'];
+			
+			$this->entryManager->updateEntry($var);
+			
+		}
+		
+		
+	}
+	
 	
 	/**
 	 * Retrieve type id of entry : debit or credit
@@ -181,4 +269,7 @@ class EventManager
 		return [$events,$allEntries];
 		
 	}
+	
+
+	
 }

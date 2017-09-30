@@ -2,81 +2,81 @@
 $this->headTitle('Edit Event of journal');
 $this->mainMenu()->setActiveItemId('Admin');
 $this->pageBreadcrumbs()->setItems([
-		'Home'=>$this->url('home'),
-		'admin'=>$this->url('myauth', ['action'=>'company']),
-		'The Journal'=>$this->url('myjournal', ['action'=> 'index'])
+		'Home' => $this->url('home'),
+		'admin' => $this->url('myauth', ['action' => 'company']),
+		'The Journal' => $this->url('myjournal', ['action' => 'index']), 
+		'Edit Journal' => $this->url('myjournal', ['action' => 'edit', 'id'=> $journal->getId()])
 ]);
 
 // general data :
-$journal = $form->get('new-event');
+$wholeEvent = $form->get('new-event');
 
-$journal->get('date')->setAttributes([
+$wholeEvent->get('date')->setAttributes([
 		'class'=>'form-control',
 		'placeholder'=> ''
 ]);
 
-$journal->get('code')->setAttributes([
+$wholeEvent->get('code')->setAttributes([
 		'class'=>'form-control',
 		'placeholder'=> ''
 ]);
-$journal->get('wording')->setAttributes([
-		'class'=>'form-control',
-		'placeholder'=> ''
-]);
-
-
-$journal->get('reference')->setAttributes([
-		'class'=>'form-control',
-		'placeholder'=> ''
-]);
-
-$journal->get('refdate')->setAttributes([
+$wholeEvent->get('wording')->setAttributes([
 		'class'=>'form-control',
 		'placeholder'=> ''
 ]);
 
 
+$wholeEvent->get('reference')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=> ''
+]);
+
+$wholeEvent->get('refdate')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=> ''
+]);
 
 // Other row data :
 
-$entries = $journal->get('entries');
+$entries = $wholeEvent->get('entries');
 
 // Submission :
 $form->get('submit')->setAttributes(['class'=>'btn btn-primary']);
 $form->prepare();
+
 ?>
 
-<h1>Edit Event from journal</h1>
+<h1>Edit Event from journal - <?= $this->escapeHtml($journal->getWording()) ?></h1>
 
 <div class="row">
     <div class="col-md-12 table-responsive">
         <?= $this->form()->openTag($form); ?>
         
         <div class="form-group date">
-            <?= $this->formLabel($journal->get('date')); ?>
-            <?= $this->formElement($journal->get('date')); ?>
-            <?= $this->formElementErrors($journal->get('date')); ?>              
+            <?= $this->formLabel($wholeEvent->get('date')); ?>
+            <?= $this->formElement($wholeEvent->get('date')); ?>
+            <?= $this->formElementErrors($wholeEvent->get('date')); ?>              
         </div>
         
         <div class="form-group">
-            <?= $this->formLabel($journal->get('code')); ?>
-            <?= $this->formElement($journal->get('code')); ?>
-            <?= $this->formElementErrors($journal->get('code')); ?>                  
+            <?= $this->formLabel($wholeEvent->get('code')); ?>
+            <?= $this->formElement($wholeEvent->get('code')); ?>
+            <?= $this->formElementErrors($wholeEvent->get('code')); ?>                  
         </div>
          <div class="form-group">
-            <?= $this->formLabel($journal->get('wording')); ?>
-            <?= $this->formElement($journal->get('wording')); ?>
-            <?= $this->formElementErrors($journal->get('wording')); ?>                  
+            <?= $this->formLabel($wholeEvent->get('wording')); ?>
+            <?= $this->formElement($wholeEvent->get('wording')); ?>
+            <?= $this->formElementErrors($wholeEvent->get('wording')); ?>                  
         </div>                 
         <div class="form-group">
-            <?= $this->formLabel($journal->get('reference')); ?>
-            <?= $this->formElement($journal->get('reference')); ?>
-            <?= $this->formElementErrors($journal->get('reference')); ?>                  
+            <?= $this->formLabel($wholeEvent->get('reference')); ?>
+            <?= $this->formElement($wholeEvent->get('reference')); ?>
+            <?= $this->formElementErrors($wholeEvent->get('reference')); ?>                  
         </div>
         <div class="form-group date">
-            <?= $this->formLabel($journal->get('refdate')); ?>
-            <?= $this->formElement($journal->get('refdate')); ?>
-            <?= $this->formElementErrors($journal->get('refdate')); ?>                  
+            <?= $this->formLabel($wholeEvent->get('refdate')); ?>
+            <?= $this->formElement($wholeEvent->get('refdate')); ?>
+            <?= $this->formElementErrors($wholeEvent->get('refdate')); ?>                  
         </div>
                                             
         

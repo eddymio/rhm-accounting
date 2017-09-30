@@ -131,7 +131,14 @@ class EntryManager
 	 */
 	public function updateEntry($journal, $data)
 	{
-	
+		// if hidden id then update otherwise, add
+		// CAN ADD A VALIDATOR HERE to check the ID
+		if (!isset($data['id']) || $data['id']) {
+			
+			return $this->addEntry($data);
+						
+		}
+				
 		$journal->setJournal($data['journal']);
 		$journal->setType($data['type']);
 		$journal->setWording($data['sWording']);
@@ -160,5 +167,17 @@ class EntryManager
 		return $entry ;
 	}
 	
-
+	/*
+	 * List all entries for a certain journal
+	 */
+	public function listEntries($journal)
+	{
+		
+		// retrieves all entries
+		$allEntries =  $this->entityManager->getRepository(Entry::class)
+		->findBy(array('journal' => $journal));
+		
+		return $allEntries;
+		
+	}
 }
