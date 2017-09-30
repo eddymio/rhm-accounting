@@ -1,0 +1,65 @@
+<?php
+$this->headTitle('Company Addresses');
+$this->mainMenu()->setActiveItemId('addresses');
+$this->pageBreadcrumbs()->setItems([
+            'Home'=>$this->url('home'),
+			'Manage Company'=>$this->url('myauth',['action'=>'company']),
+			'Manage Addresses' => $this->url('myauth',['action'=>'addresses'])
+            ]);
+?>
+
+<h1>Manage Addresses</h1>
+
+<p>
+<a class="btn btn-default" href="
+    <?= $this->url('myauth', ['action'=>'addAddress']); ?>">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Address
+</a>
+</p>
+
+<table class="table table-striped">
+
+   <tr>
+        <th>ID</th>
+        <th>Address Name</th>
+        <th>Date Created</th>
+        <th>Address</th>        
+        <th>Postcode</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Phone</th>   
+        <th>Action</th>     
+    </tr>
+    
+    <?php foreach ($addresses as $address): ?>
+    
+    <tr>
+        <td><?= $this->escapeHtml($address->getId()); ?></td>
+        <td>
+            <a href="<?= $this->url('myauth', ['action'=>'edit-address', 'id'=>$address->getId()]); ?>">
+                <?= $this->escapeHtml($address->getAddressName()); ?>
+            </a> 
+        </td>
+        <td><?= $this->escapeHtml($address->getDateCreated()->format('Y-m-d H:i:s')); ?></td>        
+        <td><?= $this->escapeHtml($address->getAddress()); ?></td>
+        <td><?= $this->escapeHtml($address->getPostcode()); ?></td>
+        <td><?= $this->escapeHtml($address->getCity()); ?></td>
+        <td><?= $this->escapeHtml($address->getCountry()->getCountryName()); ?></td>
+        <td><?= $this->escapeHtml($address->getPhone()); ?></td>
+        <td>
+            <a class="btn btn-info" href="<?= $this->url('myauth', 
+            		['action'=>'edit-address', 'id'=>$address->getId()]); ?>">
+                <span class="glyphicon glyphicon-pencil" ></span> Edit
+            </a>
+            <a class="btn btn-default" href="<?= $this->url('myauth',
+            		['action'=>'remove-address', 'id'=>$address->getId()]); ?>">
+                <span class="glyphicon glyphicon-asterisk"></span> Remove
+            </a>
+        </td>    
+    </tr>
+        
+    <?php endforeach; ?>   
+    
+</table>
+
+<p><a href="/logout">LOGOUT</a></p>

@@ -1,0 +1,19 @@
+<?php
+$this->headTitle('Welcome');
+$this->mainMenu()->setActiveItemId('home');
+$this->pageBreadcrumbs()->setItems([
+            'Home'=>$this->url('home')
+            ]);
+?>
+
+<h1>Welcome</h1>
+
+<p>
+    This is the User Demo application powered by Zend Framework 3. It demonstrates
+    how to implement user authentication and how to restrict certain pages to be
+    accessed by unauthorized users.
+</p>
+
+<p>
+    Click the <em>Sign in</em> button at the top right. To sign in or register.
+</p>

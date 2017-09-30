@@ -1,0 +1,11 @@
+Country:
+  Country_1:
+    country_name: France
+    country_code: FR
+  Country_2:
+    country_name: United States
+    country_code: US
+  Country_3:
+    country_name: United Kingdom
+    country_code: UK
+ 

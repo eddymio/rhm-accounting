@@ -1,0 +1,59 @@
+<?php
+$this->headTitle('Users');
+$this->mainMenu()->setActiveItemId('users');
+$this->pageBreadcrumbs()->setItems([
+            'Home'=>$this->url('home'),
+            'Manage Users'=>$this->url('myauth'),
+            ]);
+?>
+
+<h1>Manage Users</h1>
+
+<p>
+<a class="btn btn-default" href="
+    <?= $this->url('myauth', ['action'=>'add']); ?>">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New User
+</a>
+</p>
+
+<table class="table table-striped">
+
+   <tr>
+        <th>ID</th>
+        <th>E-mail</th>
+        <th>Full Name</th>
+        <th>Date Created</th>
+        <th>Logs</th>        
+        <th>Actions</th>        
+    </tr>
+    
+    <?php foreach ($users as $user): ?>
+    
+    <tr>
+        <td><?= $this->escapeHtml($user->getId()); ?></td>
+        <td>
+            <a href="<?= $this->url('myauth', ['action'=>'view', 'id'=>$user->getId()]); ?>">
+                <?= $this->escapeHtml($user->getUseremail()); ?>
+            </a> 
+        </td>
+        <td><?= $this->escapeHtml($user->getUsername()); ?>
+        </td>
+        <td><?= $this->escapeHtml($user->getDateCreated()->format('Y-m-d H:i:s')); ?></td>        
+        <td><a href="<?= $this->url('myauth', ['action'=>'logs', 'id'=>$user->getId()]); ?>">See logs</a></td>
+        <td>
+            <a class="btn btn-info" href="<?= $this->url('myauth', 
+                    ['action'=>'edit', 'id'=>$user->getId()]); ?>">
+                <span class="glyphicon glyphicon-pencil" ></span> Edit
+            </a>
+            <a class="btn btn-default" href="<?= $this->url('myauth',
+                    ['action'=>'change-password', 'id'=>$user->getId()]); ?>">
+                <span class="glyphicon glyphicon-asterisk"></span> Change Password
+            </a>
+        </td>    
+    </tr>
+        
+    <?php endforeach; ?>   
+    
+</table>
+
+<p><a href="/logout">LOGOUT</a></p>

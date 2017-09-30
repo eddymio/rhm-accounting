@@ -1,0 +1,42 @@
+<?php
+$this->headTitle('Edit Account');
+$this->mainMenu()->setActiveItemId('Admin');
+$this->pageBreadcrumbs()->setItems([
+		'Home'=>$this->url('home'),
+		'admin'=>$this->url('myauth', ['action'=>'company']),
+		'Chart of Accounts'=>$this->url('mychart', ['action'=>'index'])
+]);
+
+
+$form->get('description')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=>''
+]);
+
+$form->get('submit')->setAttributes(['class'=>'btn btn-primary']);
+$form->prepare();
+?>
+
+<h1>Update Account <?= $this->escapeHtml($account->getAccount()) ?></h1>
+
+<p>
+    Please fill out the following form and click the <i>Update</i> button.
+</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <?= $this->form()->openTag($form); ?>
+        
+        <div class="form-group">
+            <?= $this->formLabel($form->get('description')); ?>
+            <?= $this->formElement($form->get('description')); ?>
+            <?= $this->formElementErrors($form->get('description')); ?>                  
+        </div>
+                    
+        
+        <?= $this->formElement($form->get('submit')); ?>
+        
+        <?= $this->form()->closeTag(); ?>
+    </div>  
+
+</div>   

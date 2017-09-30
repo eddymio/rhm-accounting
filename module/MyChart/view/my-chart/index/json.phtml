@@ -1,0 +1,11 @@
+<?php
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+
+foreach($data as $var)
+{
+	$my_array[] = ["id" => $var->getId(),'account' => $var->getAccount(), 'description' => $var->getDescription()];
+	
+}
+
+echo json_encode($my_array);

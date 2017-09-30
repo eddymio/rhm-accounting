@@ -1,0 +1,225 @@
+<?php
+$this->headTitle('Add Event to journal');
+$this->mainMenu()->setActiveItemId('Admin');
+$this->pageBreadcrumbs()->setItems([
+		'Home'=>$this->url('home'),
+		'admin'=>$this->url('myauth', ['action'=>'company']),
+		'The Journal'=>$this->url('myjournal', ['action'=> 'index'])
+]);
+
+// general data :
+$journal = $form->get('new-event');
+
+$journal->get('date')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=> ''
+]);
+
+$journal->get('code')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=> ''
+]);
+$journal->get('wording')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=> ''
+]);
+
+
+$journal->get('reference')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=> ''
+]);
+
+$journal->get('refdate')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=> ''
+]);
+
+
+
+// Other row data :
+
+$entries = $journal->get('entries');
+
+// Submission :
+$form->get('submit')->setAttributes(['class'=>'btn btn-primary']);
+$form->prepare();
+?>
+
+<h1>Add Event to journal</h1>
+
+<p>
+    Please fill out the following form and click the <i>Submit</i> button.
+</p>
+
+<div class="row">
+    <div class="col-md-12 table-responsive">
+        <?= $this->form()->openTag($form); ?>
+        
+        <div class="form-group date">
+            <?= $this->formLabel($journal->get('date')); ?>
+            <?= $this->formElement($journal->get('date')); ?>
+            <?= $this->formElementErrors($journal->get('date')); ?>              
+        </div>
+        
+        <div class="form-group">
+            <?= $this->formLabel($journal->get('code')); ?>
+            <?= $this->formElement($journal->get('code')); ?>
+            <?= $this->formElementErrors($journal->get('code')); ?>                  
+        </div>
+         <div class="form-group">
+            <?= $this->formLabel($journal->get('wording')); ?>
+            <?= $this->formElement($journal->get('wording')); ?>
+            <?= $this->formElementErrors($journal->get('wording')); ?>                  
+        </div>                 
+        <div class="form-group">
+            <?= $this->formLabel($journal->get('reference')); ?>
+            <?= $this->formElement($journal->get('reference')); ?>
+            <?= $this->formElementErrors($journal->get('reference')); ?>                  
+        </div>
+        <div class="form-group date">
+            <?= $this->formLabel($journal->get('refdate')); ?>
+            <?= $this->formElement($journal->get('refdate')); ?>
+            <?= $this->formElementErrors($journal->get('refdate')); ?>                  
+        </div>
+                                            
+        
+       <a class="btn btn-default" id="add" href="#" role="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add entry</a>        
+        
+        <table class="table" id="mytable">
+
+				<?php 
+				$i = 0;
+				//https://framework.zend.com/manual/2.4/en/modules/zend.form.view.helpers.html
+				foreach($entries as $var)
+				{
+					if(!$i++) 
+					{
+						?>
+						<thead>
+						<tr>
+							<th><?= $this->formLabel($var->get('account')); ?></th>
+			                <th><?= $this->formLabel($var->get('sWording')); ?></th>
+			                <th><?= $this->formLabel($var->get('debit')); ?></th>
+			                <th><?= $this->formLabel($var->get('credit')); ?></th>
+			                <th><?= $this->formLabel($var->get('currency')); ?></th>
+			                <th><?= $this->formLabel($var->get('ratio')); ?></th>
+			            </tr>
+			        	</thead>
+						<tbody id="fieldset">
+						<?php 			
+					}
+					
+					$var->get('account')->setAttributes([
+							'class'=>'form-control account',
+							'placeholder'=> ''
+					]);
+					$var->get('sWording')->setAttributes([
+							'class'=>'form-control',
+							'placeholder'=> ''
+					]);
+					$var->get('debit')->setAttributes([
+							'class'=>'form-control',
+							'placeholder'=> ''
+					]);
+					$var->get('credit')->setAttributes([
+							'class'=>'form-control',
+							'placeholder'=> ''
+					]);
+					$var->get('currency')->setAttributes([
+							'class'=>'form-control',
+							'placeholder'=> ''
+					]);
+					$var->get('ratio')->setAttributes([
+							'class'=>'form-control',
+							'placeholder'=> ''
+					]);
+					
+					
+				    echo '<tr><td>'.$this->formElement($var->get('account')).'</td>';
+				    echo '<td>'.$this->formElement($var->get('sWording')).'</td>';
+				    echo '<td>'.$this->formElement($var->get('debit')).'</td>';
+				    echo '<td>'.$this->formElement($var->get('credit')).'</td>';
+				    echo '<td>'.$this->formElement($var->get('currency')).'</td>';
+				    echo '<td>'.$this->formElement($var->get('ratio')).'</td></tr>';
+				}
+							
+				?>			
+	
+			</tbody>        
+        </table>        
+
+	<?php 
+	// Render the collection template
+	//$this->formCollection()->setTemplateWrapper('<span data-template="%s"></span>');
+	//$this->formCollection()->setShouldWrap(false);
+	// Change fieldset wrapper to tr rows
+	  $this->formCollection()->setWrapper('<tr%4$s>%2$s%1$s%3$s</tr>');
+	  
+	  //https://github.com/zendframework/zend-form/blob/master/src/View/Helper/FormCollection.php
+	  // Set the default input helper as our custom formInputTd instead of formInput
+	  // dont forget use Zend\ServiceManager\Factory\InvokableFactory; in module.config.php and view_helpers
+	  $this->formCollection()->setDefaultElementHelper('formRowTd');
+	  
+	   echo $this->formCollection()->renderTemplate($entries);
+    ?>        
+        
+        <?= $this->formElement($form->get('submit')); ?>
+        
+        <?= $this->form()->closeTag(); ?>
+    </div>  
+    
+</div>
+
+<!-- Jquery script to add one more row inside the table -->
+<script>
+
+//Array to store the car models :
+
+var availableData = [];
+ 
+// retrieve JSon from external url and load the data inside an array :
+$.getJSON( '<?= $this->url('mychart', ['action'=> 'json']) ?>', function( data ) {
+var items = [];
+$.each( data, function( key, val ) {
+	availableData.push(val.account);
+});
+});
+
+$( ".account" ).autocomplete({
+	 source: availableData
+	 });
+
+
+$( "#add" ).click(function() {
+	// Counting rows and add a new one below
+     var currentCount = $('#fieldset > tr').length;
+     var template = $('form > span').data('template');
+     // replace the place holder with the current count
+     template = template.replace(/__placeholder__/g, currentCount);
+     $('#fieldset').append(template);
+
+     $( ".account" ).autocomplete({
+    	 source: availableData,
+    	 minLength : 2
+    	 });
+     
+});
+
+/* Date time picker*/
+$(function () {
+    $('#datepicker1').datetimepicker({
+
+    	format: 'YYYY-MM-DD'
+        });
+    $('#datepicker2').datetimepicker({
+
+    	format: 'YYYY-MM-DD'
+        });
+});
+
+
+</script>
+
+
+   

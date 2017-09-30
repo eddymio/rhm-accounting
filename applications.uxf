@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>90</x>
+      <y>120</y>
+      <w>330</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>_application_category_
+--
+id smallint unsigned not null
+title varchar(150) NOT NULL,
+description VARCHAR(250),
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>450</x>
+      <y>30</y>
+      <w>230</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>MAIN DATABASE
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>90</x>
+      <y>280</y>
+      <w>330</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>_application_
+--
+id smallint unsigned not null
+title varchar(150) NOT NULL,
+description VARCHAR(250),
+
+application_category_id SMALLINT NOT NULL
+
+[
+FOREIGN KEY application_category references 
+application_category
+]</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>210</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>210</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>280</y>
+      <w>330</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>_company_application_
+--
+application_id smallint unsigned not null
+company_id BIGINT NOT NULL
+
+-- those entries represents the enabled apps
+
+[
+PRIMARY KEY (application_id,company_id)
+FOREIGN KEY application_id references 
+application
+FOREIGN KEY company_id REFERENCES
+company
+]</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>370</y>
+      <w>250</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n</panel_attributes>
+    <additional_attributes>230.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>810</x>
+      <y>50</y>
+      <w>50</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n</panel_attributes>
+    <additional_attributes>10.0;230.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>770</x>
+      <y>30</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>/company table/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

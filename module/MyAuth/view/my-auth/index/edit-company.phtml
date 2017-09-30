@@ -1,0 +1,77 @@
+<?php
+$this->headTitle('Edit Company');
+$this->mainMenu()->setActiveItemId('company');
+$this->pageBreadcrumbs()->setItems([
+            'Home'=>$this->url('home'),
+		'Manage Company'=>$this->url('myauth', ['action'=>'company']),
+            'Edit Company'=>$this->url('myauth', ['action'=>'editCompany'])
+            ]);
+$form->get('company_name')->setAttributes([
+    'class'=>'form-control', 
+    'placeholder'=>''
+    ]);
+$form->get('company_identification')->setAttributes([
+    'class'=>'form-control', 
+    'placeholder'=>'Company ID'
+    ]);
+$form->get('fiscal_start')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=>'0101'
+]);
+
+$form->get('fiscal_end')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=>'3112'
+]);
+
+$form->get('company_url')->setAttributes([
+		'class'=>'form-control',
+		'placeholder'=>'http://yourdomain.com'
+]);
+
+
+$form->get('submit')
+        ->setAttributes(['class'=>'btn btn-primary'])
+        ->setValue('Save');
+$form->prepare();
+?>
+
+<h1>Edit Company <?= $this->escapeHtml($company->getCompanyName()) ?></h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <?= $this->form()->openTag($form); ?>
+        
+        <div class="form-group">
+            <?= $this->formLabel($form->get('company_name')); ?>
+            <?= $this->formElement($form->get('company_name')); ?>
+            <?= $this->formElementErrors($form->get('company_name')); ?>                  
+        </div>
+        
+        <div class="form-group">
+            <?= $this->formLabel($form->get('company_identification')); ?>
+            <?= $this->formElement($form->get('company_identification')); ?>
+            <?= $this->formElementErrors($form->get('company_identification')); ?>                  
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('company_url')); ?>
+            <?= $this->formElement($form->get('company_url')); ?>
+            <?= $this->formElementErrors($form->get('company_url')); ?>                  
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('fiscal_start')); ?>
+            <?= $this->formElement($form->get('fiscal_start')); ?>
+            <?= $this->formElementErrors($form->get('fiscal_start')); ?>                  
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('fiscal_end')); ?>
+            <?= $this->formElement($form->get('fiscal_end')); ?>
+            <?= $this->formElementErrors($form->get('fiscal_end')); ?>                  
+        </div>
+                        
+
+        <?= $this->formElement($form->get('submit')); ?>
+        
+        <?= $this->form()->closeTag(); ?>
+    </div>    
+</div>   

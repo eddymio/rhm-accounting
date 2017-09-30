@@ -1,0 +1,66 @@
+<?php
+$this->headTitle('Admin');
+$this->mainMenu()->setActiveItemId('Admin');
+$this->pageBreadcrumbs()->setItems([
+            'Home'=>$this->url('home'),
+			'Admin'=>$this->url('myauth', ['action'=>'company']),
+            ]);
+?>
+
+<h2>Journal Parameters</h2>
+
+<h3>Events</h3>
+<p><a href="<?= $this->url('myjournal',['action' => 'add']);?>" class="btn btn-default">Add Event</a>
+</p>
+
+
+<h3>Journal</h3>
+<p><a href="<?= $this->url('myjournal',['action' => 'list']);?>" class="btn btn-default">Listing</a>
+</p>
+
+<table class="table">
+
+    <?php 
+	    // 	display latest journal entries $events[0] contains journal data and $events[1] entries 
+    	for ($i = 0;$i < count($events[0]);$i++): ?>
+	    <thead class="thead-inverse">
+	    <tr>
+	    	<th colspan="4" style="text-align:center"><?= $this->escapeHtml($events[0][$i]->getDate()); ?></th>
+	    </tr>
+	    </thead>
+	    <tbody>
+	    <?php 
+	    
+	    	foreach($events[1][$i] as $entry): ?>
+	    		
+				<tr>
+					<td><?= $this->escapeHtml($entry->getAccount()->getAccount());?></td>
+			        <?php 
+					
+					if ($this->escapeHtml($entry->getType()->getName()) == 'DEBIT') {
+					
+						echo '<td>'.$this->escapeHtml($entry->getAccount()->getDescription()).'</td><td></td>';
+						echo '<td>'.$this->escapeHtml($entry->getAmount()).'</td><td></td>';
+					} else {
+						
+						echo '<td></td><td>'.$this->escapeHtml($entry->getAccount()->getDescription()).'</td><td></td>';
+						echo '<td>'.$this->escapeHtml($entry->getAmount()).'</td><td></td>';
+					
+					}
+					?>       
+			    </tr>
+	    		
+	    
+	   <?php endforeach;?>
+		</tbody>
+	     <tr>
+	        <td colspan="4" style="text-align:center"><?= $this->escapeHtml($events[0][$i]->getWording()); ?>
+	        <?php echo '<a href="'.$this->url('myjournal', ['action'=>'edit','id' => $events[0][$i]->getId()]).'">edit</a>';?>
+	        </td>
+	      </tr>
+        
+    <?php endfor; ?>   
+    
+</table>
+
+<p><a href="/logout">LOGOUT</a></p>

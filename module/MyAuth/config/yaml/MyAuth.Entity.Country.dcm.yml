@@ -1,0 +1,19 @@
+MyAuth\Entity\Country:
+  type: entity
+  table: country
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    country_name:
+      type: string
+      length: 150
+      unique: true
+      notnull: true
+    country_code:
+      type: string
+      length: 3
+      notnull: true
+      unique: true

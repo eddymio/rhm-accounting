@@ -1,0 +1,95 @@
+<?php
+$this->headTitle('Admin');
+$this->mainMenu()->setActiveItemId('Admin');
+$this->pageBreadcrumbs()->setItems([
+            'Home'=>$this->url('home'),
+			'Admin'=>$this->url('myauth', ['action'=>'company']),
+            ]);
+?>
+
+<h2>Enterprise parameters</h2>
+
+<h3>Currency</h3>
+<p><a href="<?= $this->url('myenterprise',['action' => 'addCurrency']);?>" class="btn btn-default">NEW CURRENCY</a>
+</p>
+<table class="table table-striped">
+
+    <?php foreach ($currencies as $cur): ?>
+    
+	    <tr>
+	    	<td><?= $this->escapeHtml($cur->getName()); ?></td>
+	        <td><?= $this->escapeHtml($cur->getLabel()); ?></td>
+	        <td>
+	        <?php 
+	        	if ($cur->getIsDefault())
+	        	{
+	        		echo 'Yes';
+	        	} else 
+	        	{
+	        		echo 'No';
+	        		
+	        	}
+	        
+	        ?></td>
+	        <td><?php echo '<a href="'.$this->url('myenterprise', ['action'=>'editCurrency','id' => $cur->getId()]).'">edit</a>';
+	               
+	        ?></td>
+	    </tr>
+        
+    <?php endforeach; ?>   
+    
+</table>
+
+<h3>VAT</h3>
+<p><a href="<?= $this->url('myenterprise',['action' => 'addVat']);?>" class="btn btn-default">NEW VAT</a>
+</p>
+<table class="table table-striped">
+
+    <?php foreach ($vats as $vat): ?>
+    
+	    <tr>
+	    	<td><?= $this->escapeHtml($vat->getName()); ?></td>
+	        <td><?= $this->escapeHtml($vat->getAmount()); ?> %</td>
+	        <td>
+	        <?php 
+	        	if ($vat->getIsDefault())
+	        	{
+	        		echo 'Yes';
+	        	} else 
+	        	{
+	        		echo 'No';
+	        		
+	        	}
+	        
+	        ?></td>
+	        <td><?php echo '<a href="'.$this->url('myenterprise', ['action'=>'editVat','id' => $vat->getId()]).'">edit</a>';
+	               
+	        ?></td>
+	    </tr>
+        
+    <?php endforeach; ?>   
+    
+</table>
+
+<h3>Taxes</h3>
+<p><a href="<?= $this->url('myenterprise',['action' => 'addTax']);?>" class="btn btn-default">NEW TAX</a>
+</p>
+<table class="table table-striped">
+
+    <?php foreach ($taxes as $tax): ?>
+    
+	    <tr>
+	    	<td><?= $this->escapeHtml($vat->getName()); ?></td>
+	        <td><?= $this->escapeHtml($vat->getAmount()); ?> %</td>
+	        <td><?php echo '<a href="'.$this->url('myenterprise', ['action'=>'editTax','id' => $vat->getId()]).'">edit</a>';
+	               
+	        ?></td>
+	    </tr>
+        
+    <?php endforeach; ?>   
+    
+</table>
+
+
+
+<p><a href="/logout">LOGOUT</a></p>

@@ -1,0 +1,30 @@
+<?php
+$this->headTitle('View User Logs');
+$this->mainMenu()->setActiveItemId('users');
+$this->pageBreadcrumbs()->setItems([
+		'Home'=>$this->url('home'),
+		'Manage Users'=>$this->url('myauth'),
+		'User Logs'=>$this->url('myauth', ['action'=>'logs', 'id'=> $id])
+]);
+?>
+
+<h1>Users Logs</h1>
+
+<table class="table table-striped">
+
+   <tr>
+        <th>ID</th>
+        <th>Date</th>        
+    </tr>
+    
+    <?php foreach ($logs as $log): ?>
+    
+    <tr>
+        <td><?= $this->escapeHtml($log->getId()); ?></td>
+        <td><?= $this->escapeHtml($log->getDate()->format('Y-m-d')); ?></td>
+   
+    </tr>
+        
+    <?php endforeach;   ?>   
+    
+</table>

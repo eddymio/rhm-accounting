@@ -1,0 +1,49 @@
+<?php
+$this->headTitle('Admin');
+$this->mainMenu()->setActiveItemId('interface');
+$this->pageBreadcrumbs()->setItems([
+            'Home'=>$this->url('home'),
+            'Manage Users'=>$this->url('myauth'),
+            ]);
+?>
+
+<h1>Administrative interface</h1>
+
+<p>
+<?php if (!$base): ?>
+<a class="btn btn-default" href="
+    <?= $this->url('mybase', ['action'=>'create']); ?>">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> CREATE DATABASE
+</a>
+<?php else :?>
+
+<h2>List of Applications</h2>
+
+<table class="table table-striped">
+
+    <?php foreach ($apps as $app): ?>
+    
+	    <tr>
+	    	<td><?= $this->escapeHtml($categs[$app->getCategory()->getId()]); ?></td>
+	        <td><a href="<?=$this->url('my'.strtolower($app->getShortname()));?>"><?= $this->escapeHtml($app->getName()); ?></a></td>
+	        <td><?php 
+	        	// If application enabled then allow to disable
+	        	if (in_array($app->getId(), $myapps)) {
+	        		
+	        		echo '<a href="'.$this->url('mybase', ['action'=>'disable','id' => $app->getId()]).'">Disable</a>';
+	        	} else {
+	        		
+	        		echo '<a href="'.$this->url('my'.strtolower($app->getShortname()), ['action'=>'enable','id' => $app->getId()]).'">Enable</a>';
+	        	}
+	        
+	        ?></td>
+	    </tr>
+        
+    <?php endforeach; ?>   
+    
+</table>
+
+<?php endif;?>
+
+
+<p><a href="/logout">LOGOUT</a></p>

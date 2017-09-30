@@ -1,0 +1,22 @@
+<?php
+$this->headTitle('Admin');
+$this->mainMenu()->setActiveItemId('interface');
+$this->pageBreadcrumbs()->setItems([
+            'Home'=>$this->url('home'),
+            'Manage Users'=>$this->url('myauth'),
+            ]);
+?>
+
+<h1>Administrative interface</h1>
+
+<p>
+<a class="btn btn-default" href="
+    <?= $this->url('mybase'); ?>">
+    RETURN TO Administrative interface
+</a>
+</p>
+<p>
+Database successfully created to exercice <?=$db;?>
+</p>
+
+<p><a href="/logout">LOGOUT</a></p>
