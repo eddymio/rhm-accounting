@@ -23,6 +23,7 @@ class LoadApplication implements FixtureInterface, ContainerAwareInterface
 		$myApplication = $this->container->get(ApplicationManager::class);
 		
 		$data[]= array('category' => 1,'name' => 'Chart of Accounts','description' => 'Chart of Accounts','short' => 'Chart');
+		$data[]= array('category' => 1,'name' => 'Bank','description' => 'Bank details and account management','short' => 'Bank');
 		$data[]= array('category' => 1,'name' => 'Enterprise parameters','description' => 'Enterprise, Currency and Tax configuration','short' => 'Enterprise');
 		$data[]= array('category' => 1,'name' => 'Journal','description' => 'Journal entries and event management','short' => 'Journal');
 		

@@ -25,7 +25,7 @@ class Country
     /**
      * @ORM\Column(name="country_code")
      */
-    protected$country_code;
+    protected $country_code;
 
 
 

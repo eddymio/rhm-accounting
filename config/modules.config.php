@@ -32,6 +32,7 @@ return [
     'Application',
 	'MyAuth',
 	'MyBase',
+	'MyBank',
 	'MyChart',
 	'MyEnterprise',
 	'MyJournal'

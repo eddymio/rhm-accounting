@@ -36,6 +36,7 @@
 			"MyAuth\\" : "module/MyAuth/src/",
 			"MyBase\\" : "module/MyBase/src/",
 			"MyChart\\" : "module/MyChart/src/",
+			"MyBank\\" : "module/MyBank/src/",
 			"MyEnterprise\\" : "module/MyEnterprise/src/",
 			"MyJournal\\" : "module/MyJournal/src/"
 		}
