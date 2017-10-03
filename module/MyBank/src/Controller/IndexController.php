@@ -106,7 +106,7 @@ class IndexController extends AbstractActionController
 			}
 			
 			// And the account table :
-			$result = $this->accountManager->createAccountTable();
+			$result = $this->accountManager->createBankAccountTable();
 			
 			if (!$result) {
 				

@@ -16,10 +16,9 @@ class CountryManager extends CountryManagerBase
 	
 	public function __construct($entityManager,$connectionManager)
 	{
-		$this->connectionManager= $entityManager;
+		$this->connectionManager= $connectionManager;
 		
-		$this->entityManager = $entityManager;
-		
+		parent::__construct($entityManager);
 	}
 	
 	
@@ -68,7 +67,9 @@ class CountryManager extends CountryManagerBase
 		
 		foreach($fixtures->data as $dd) {
 			
-			$this->addAccount($dd);
+			if (!$this->checkCountryExists($dd['country'])) {
+				$this->addCountry($dd);
+			}
 			
 		}
 		
