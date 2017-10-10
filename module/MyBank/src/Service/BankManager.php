@@ -86,19 +86,21 @@ class BankManager
 	public function addBank($data)
 	{
 		// Do not allow several identicacl code .
-		if(!$bank = $this->checkBankExists($data['detail'])) {
+		if(!$bank = $this->checkBankExists($data['detail_name'])) {
 			
 			// Create new Bank entity.
 			$bank= new Bank();
-			$bank->setName($data['detail']);
+			$bank->setName($data['detail_name']);
 			$bank->setIsDefault($data['default']);
-			$bank->setBankName($data['name']);
+			$bank->setBankName($data['bank_name']);
 			$bank->setAddress($data['address']);
 			$bank->setPostcode($data['postcode']);
 			$bank->setCity($data['city']);
 			$bank->setPhone($data['phone']);
 			$bank->setCountry($data['country']);
 			
+			$currentDate = new \DateTime("now");
+			$bank->setDate($currentDate);
 			
 			// Add the entity to the entity manager.
 			$this->entityManager->persist($bank);
@@ -117,9 +119,9 @@ class BankManager
 	public function updateBank($bank, $data)
 	{
 		
-		$bank->setName($data['detail']);
+		$bank->setName($data['detail_name']);
 		$bank->setIsDefault($data['default']);
-		$bank->setBankName($data['name']);
+		$bank->setBankName($data['bank_name']);
 		$bank->setAddress($data['address']);
 		$bank->setPostcode($data['postcode']);
 		$bank->setCity($data['city']);
@@ -137,7 +139,7 @@ class BankManager
 	 */
 	public function checkBankExists($bank) {
 		
-		$bank = $this->entityManager->getRepository(Code::class)
+		$bank = $this->entityManager->getRepository(Bank::class)
 		->findOneBy(array('name' => $bank));
 		
 		return $bank!== null;

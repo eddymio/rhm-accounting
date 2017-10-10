@@ -36,7 +36,6 @@ class BankAccountManager
 	{
 		$tbname = 'bank_account';
 		$reftable = 'bank_detail';
-		$reftable1 = 'chart_account';
 		
 		$sm = $this->connectionManager->getSchemaManager();
 		
@@ -57,13 +56,12 @@ class BankAccountManager
 			$table->addColumn('account_bic', "string", array("length" => 50,'notnull' => true));
 			$table->addColumn('account_swift', "string", array("length" => 50,'notnull' => true));
 			
-			$table->addColumn('account_number', "integer", ['notnull' => true]);
+			$table->addColumn('account_number', "string", ["length" => 50,'notnull' => true]);
 			$table->addColumn('bank_id', "integer", ['notnull' => true]);
 			
 			
 			//http://www.doctrine-project.org/api/dbal/2.0/source-class-Doctrine.DBAL.Schema.Table.html#376-394
 			
-			$table->addForeignKeyConstraint($reftable1,['account_number'],['id']);
 			$table->addForeignKeyConstraint($reftable,['bank_id'],['id']);
 			
 			$table->setPrimaryKey(['id']);
@@ -88,13 +86,14 @@ class BankAccountManager
 			// Create new account entity.
 			$account= new Account();
 			$account->setName($data['name']);
-			$account->setDate($data['date']);
-			$account->setNumber($data['account']);
+			$account->setNumber($data['number']);
 			$account->setIban($data['iban']);
 			$account->setSwift($data['swift']);
 			$account->setBic($data['bic']);
 			$account->setBank($data['bank']);
-		
+
+			$currentDate = new \DateTime("now");
+			$account->setDate($currentDate);
 			
 			// Add the entity to the entity manager.
 			$this->entityManager->persist($account);
@@ -110,16 +109,14 @@ class BankAccountManager
 	/**
 	 * This method updates data of an existing $code.
 	 */
-	public function updateBank($account, $data)
+	public function updateAccount($account, $data)
 	{
 		
 		$account->setName($data['name']);
-		$account->setDate($data['date']);
-		$account->setNumber($data['account']);
+		$account->setNumber($data['number']);
 		$account->setIban($data['iban']);
 		$account->setSwift($data['swift']);
 		$account->setBic($data['bic']);
-		$account->setBank($data['bank']);
 		
 		// Apply changes to database.
 		$this->entityManager->flush();

@@ -4,6 +4,7 @@ $this->mainMenu()->setActiveItemId('Admin');
 $this->pageBreadcrumbs()->setItems([
 		'Home'=>$this->url('home'),
 		'Admin'=>$this->url('myauth', ['action'=>'company']),
+		'Bank'=>$this->url('mybank', ['action'=>'index']),
 ]);
 ?>
 
@@ -13,6 +14,47 @@ $this->pageBreadcrumbs()->setItems([
 <p><a href="<?= $this->url('mybank',['action' => 'addBank']);?>" class="btn btn-default">ADD BANK</a>
 </p>
 
+<p>
+Following are all banks registered for all types of contacts.
+</p>
+<table class="table table-striped">
 
+   <tr>
+        <th>ID</th>
+        <th>Identification</th>
+        <th>Bank Name</th>
+        <th>Date Created</th>
+        <th>City/Country</th>        
+        <th>Actions</th>        
+    </tr>
+    
+    <?php foreach ($banks as $bank): ?>
+    
+    <tr>
+        <td><?= $this->escapeHtml($bank->getId()); ?></td>
+        <td>
+            <a href="<?= $this->url('mybank', ['action'=>'view', 'id'=>$bank->getId()]); ?>">
+                <?= $this->escapeHtml($bank->getName()); ?>
+            </a> 
+        </td>
+        <td><?= $this->escapeHtml($bank->getBankName()); ?>
+        </td>
+        <td><?= $this->escapeHtml($bank->getDate()->format('Y-m-d')); ?></td>        
+        <td><?= $this->escapeHtml($bank->getCity()); ?> / <?= $this->escapeHtml($bank->getCountry()->getCountryName()); ?></td>
+        <td>
+            <a class="btn btn-info" href="<?= $this->url('mybank', 
+            		['action'=>'view', 'id'=>$bank->getId()]); ?>">
+                <span class="glyphicon glyphicon-pencil" ></span> View
+            </a>
+            <a class="btn btn-default" href="<?= $this->url('mybank',
+                    ['action'=>'edit', 'id'=>$bank->getId()]); ?>">
+                <span class="glyphicon glyphicon-asterisk"></span> Edit
+            </a>
+        </td>    
+    </tr>
+        
+    <?php endforeach; ?>   
+    
+</table>
 
 <p><a href="/logout">LOGOUT</a></p>

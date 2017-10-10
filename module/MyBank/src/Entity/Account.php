@@ -24,7 +24,7 @@ class Account
 	protected $name;
 	
 	/**
-	 * @ORM\Column(name="date_creation")
+	 * @ORM\Column(name="date_creation",type="date")
 	 */
 	protected $date;
 	
